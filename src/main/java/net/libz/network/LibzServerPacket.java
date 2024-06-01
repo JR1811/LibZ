@@ -1,10 +1,10 @@
 package net.libz.network;
 
-import io.netty.buffer.Unpooled;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.libz.network.packet.ConfigPacket;
+import net.libz.network.packet.MousePacket;
 import net.libz.util.ConfigHelper;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
-import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
@@ -14,28 +14,19 @@ public class LibzServerPacket {
     public static final Identifier SYNC_CONFIG_PACKET = new Identifier("libz", "sync_config");
 
     public static void init() {
+        PayloadTypeRegistry.playS2C().register(ConfigPacket.PACKET_ID, ConfigPacket.PACKET_CODEC);
+        PayloadTypeRegistry.playS2C().register(MousePacket.PACKET_ID, MousePacket.PACKET_CODEC);
     }
 
-    public static void writeS2CConfigPacket(ServerPlayNetworkHandler serverPlayNetworkHandler, String configName, boolean gson) {
-
+    public static void writeS2CConfigPacket(ServerPlayerEntity serverPlayerEntity, String configName, boolean gson) {
         byte[] bytes = ConfigHelper.getConfigBytes(configName, gson, true);
-
         if (bytes != null) {
-            PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
-            buf.writeString(configName);
-            buf.writeBoolean(gson);
-            buf.writeBytes(bytes);
-            CustomPayloadS2CPacket packet = new CustomPayloadS2CPacket(SYNC_CONFIG_PACKET, buf);
-            serverPlayNetworkHandler.sendPacket(packet);
+            ServerPlayNetworking.send(serverPlayerEntity, new ConfigPacket(configName, gson, bytes));
         }
     }
 
     public static void writeS2CMousePositionPacket(ServerPlayerEntity serverPlayerEntity, int mouseX, int mouseY) {
-        PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
-        buf.writeInt(mouseX);
-        buf.writeInt(mouseY);
-        CustomPayloadS2CPacket packet = new CustomPayloadS2CPacket(SET_MOUSE_POSITION, buf);
-        serverPlayerEntity.networkHandler.sendPacket(packet);
+        ServerPlayNetworking.send(serverPlayerEntity, new MousePacket(mouseX, mouseY));
     }
 
 }

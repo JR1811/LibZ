@@ -8,7 +8,7 @@ import net.libz.LibzClient;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 
-@SuppressWarnings({ "rawtypes", "unchecked" })
+@SuppressWarnings({ "rawtypes", "unchecked", "unused" })
 public class LibzEmiPlugin implements EmiPlugin {
 
     @Override

@@ -21,7 +21,7 @@ public class EventInit {
                             ConfigSerializer<?> configSerializer = ((ConfigManager<?>) holder).getSerializer();
 
                             if (configSerializer instanceof GsonConfigSerializer || configSerializer instanceof JanksonConfigSerializer) {
-                                LibzServerPacket.writeS2CConfigPacket(handler, ((ConfigManager<?>) holder).getDefinition().name(), configSerializer instanceof GsonConfigSerializer);
+                                LibzServerPacket.writeS2CConfigPacket(handler.player, ((ConfigManager<?>) holder).getDefinition().name(), configSerializer instanceof GsonConfigSerializer);
                             }
                         }
                     });
