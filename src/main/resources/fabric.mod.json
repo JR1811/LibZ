@@ -36,7 +36,7 @@
     "libz.mixins.json"
   ],
   "depends": {
-    "java": ">=17",
+    "java": ">=21",
     "minecraft": "*",
     "fabric-api": ">=${fabric_version}",
     "fabricloader": ">=${loader_version}",

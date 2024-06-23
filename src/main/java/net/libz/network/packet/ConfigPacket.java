@@ -7,7 +7,7 @@ import net.minecraft.util.Identifier;
 
 public record ConfigPacket(String configName, boolean gson, byte[] bytes) implements CustomPayload {
 
-    public static final CustomPayload.Id<ConfigPacket> PACKET_ID = new CustomPayload.Id<>(new Identifier("libz", "config_packet"));
+    public static final CustomPayload.Id<ConfigPacket> PACKET_ID = new CustomPayload.Id<>(Identifier.of("libz", "config_packet"));
 
     public static final PacketCodec<RegistryByteBuf, ConfigPacket> PACKET_CODEC = PacketCodec.of((value, buf) -> {
         buf.writeString(value.configName);

@@ -19,7 +19,7 @@ public class LibzClient implements ClientModInitializer {
     public static final List<InventoryTab> inventoryTabs = new ArrayList<InventoryTab>();
     public static final HashMap<Class<?>, List<InventoryTab>> otherTabs = new HashMap<Class<?>, List<InventoryTab>>();
 
-    public static final Identifier tabTexture = new Identifier("libz:textures/gui/icons.png");
+    public static final Identifier tabTexture = Identifier.of("libz:textures/gui/icons.png");
 
     public static final boolean isLibGuiLoaded = FabricLoader.getInstance().isModLoaded("libgui");
 

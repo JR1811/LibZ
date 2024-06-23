@@ -10,8 +10,8 @@ import net.minecraft.util.Identifier;
 
 public class LibzServerPacket {
 
-    public static final Identifier SET_MOUSE_POSITION = new Identifier("libz", "set_mouse_position");
-    public static final Identifier SYNC_CONFIG_PACKET = new Identifier("libz", "sync_config");
+    public static final Identifier SET_MOUSE_POSITION = Identifier.of("libz", "set_mouse_position");
+    public static final Identifier SYNC_CONFIG_PACKET = Identifier.of("libz", "sync_config");
 
     public static void init() {
         PayloadTypeRegistry.playS2C().register(ConfigPacket.PACKET_ID, ConfigPacket.PACKET_CODEC);
