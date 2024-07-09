@@ -14,8 +14,8 @@ public class LibzServerPacket {
     public static final Identifier SYNC_CONFIG_PACKET = Identifier.of("libz", "sync_config");
 
     public static void init() {
-        PayloadTypeRegistry.playS2C().register(ConfigPacket.PACKET_ID, ConfigPacket.PACKET_CODEC);
-        PayloadTypeRegistry.playS2C().register(MousePacket.PACKET_ID, MousePacket.PACKET_CODEC);
+        PayloadTypeRegistry.playS2C().register(ConfigPacket.IDENTIFIER, ConfigPacket.PACKET_CODEC);
+        PayloadTypeRegistry.playS2C().register(MousePacket.IDENTIFIER, MousePacket.PACKET_CODEC);
     }
 
     public static void writeS2CConfigPacket(ServerPlayerEntity serverPlayerEntity, String configName, boolean gson) {

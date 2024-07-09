@@ -1,22 +1,32 @@
 package net.libz.network.packet;
 
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.libz.LibzMain;
+import net.libz.access.MouseAccessor;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
+import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.network.packet.CustomPayload;
-import net.minecraft.util.Identifier;
 
 public record MousePacket(int mouseX, int mouseY) implements CustomPayload {
 
-    public static final CustomPayload.Id<MousePacket> PACKET_ID = new CustomPayload.Id<>(Identifier.of("libz", "mouse_packet"));
+    public static final CustomPayload.Id<MousePacket> IDENTIFIER = new CustomPayload.Id<>(LibzMain.identifierOf("mouse_packet"));
 
-    public static final PacketCodec<RegistryByteBuf, MousePacket> PACKET_CODEC = PacketCodec.of((value, buf) -> {
-        buf.writeInt(value.mouseX);
-        buf.writeInt(value.mouseY);
-    }, buf -> new MousePacket(buf.readInt(), buf.readInt()));
+    public static final PacketCodec<RegistryByteBuf, MousePacket> PACKET_CODEC = PacketCodec.tuple(
+            PacketCodecs.INTEGER, MousePacket::mouseX,
+            PacketCodecs.INTEGER, MousePacket::mouseY,
+            MousePacket::new
+    );
 
     @Override
     public Id<? extends CustomPayload> getId() {
-        return PACKET_ID;
+        return IDENTIFIER;
     }
 
+
+    public void handlePacket(ClientPlayNetworking.Context context) {
+        int mouseX = this.mouseX();
+        int mouseY = this.mouseY();
+        ((MouseAccessor) context.client().mouse).setMousePosition(mouseX, mouseY);
+    }
 }
